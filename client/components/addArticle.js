@@ -12,6 +12,7 @@ Vue.component('form-add-article', {
             tag: [],
             image: '',
             imageUrl: '',
+            music: null
         }
     },
     methods: {
@@ -28,7 +29,6 @@ Vue.component('form-add-article', {
             data.append('content', this.content);
             data.append('tag', this.tag);
 
-
             axios({
                 method: 'post',
                 url: `${url}/articles`,
@@ -39,9 +39,35 @@ Vue.component('form-add-article', {
                 }
             })
             .then( ({ data }) => {
-                this.$emit('push-article', data)
+                if (this.music) {
+                    alertify.message('Please wait a moment');
+                    let dataMusic = new FormData()
+
+                    dataMusic.append('music', this.music)
+                    // LAMBAT X
+                    axios({
+                        method: 'put',
+                        url: `${url}/articles/music/${data._id}`,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            token: localStorage.token
+                        },
+                        data: dataMusic
+                    })
+                    .then( ({ data }) => {
+                        alertify.message('Success write article')
+                        this.$emit('push-article', data)
+                    })
+                    .catch(err => {
+                        alertify.error('Something went wrong');
+                        console.error(err)
+                    })
+                } else {
+                    this.$emit('push-article', data)
+                }
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
   
@@ -57,6 +83,9 @@ Vue.component('form-add-article', {
             this.imageUrl = URL.createObjectURL(this.$refs.file.files[0]);
             this.image = this.$refs.file.files[0];
         },
+        handleMusicUpload () {
+            this.music = this.$refs.file2.files[0];
+        }
     },
     template: `
         <div class="card mt-3">
@@ -81,11 +110,10 @@ Vue.component('form-add-article', {
 
                         <div class="form-group">
                             <label>Brief Description</label>
-                            <input type="text" class="form-control" v-model="briefDesc" placeholder="Enter brief description about the article">
+                            <textarea class="form-control" id="exampleTextarea" rows="3" v-model="briefDesc" placeholder="Enter brief description about the article"></textarea>
                         </div>
 
                         <wysiwyg v-model="content"></wysiwyg>
-                        <small> please input image down below </small>
 
                         <div class="form-group mt-2">
                             <label >Tag</label>
@@ -103,16 +131,22 @@ Vue.component('form-add-article', {
                         </div>
                         <br>
 
+                        <!-- MUSIC -->
                         <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
+                            <label for="exampleInputFile">Music input</label>
+                            <input type="file" @change.prevent="handleMusicUpload" class="mt-3" id="file2" ref="file2"></input>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputFile">Image input</label>
                             <input type="file" @change.prevent="handleFileUpload" class="mt-3" id="file" ref="file"></input>
                         </div>
 
                         <div v-if="imageUrl" >
-                            <img class="img-art" :src="imageUrl" alt="image" >
+                            <img class="img-art" style="width: 100%; height: 100%" :src="imageUrl" alt="image" >
                         </div>
 
-                        <div class="row justify-content-end">
+                        <div class="row justify-content-end mt-4">
                             <button type="submit" class="btn btn-primary ml-2">Submit</button>
                             <button @click="close" type="button" style="background-color: #e0e0e0" class="btn ml-2">Close</button>
                         </div>

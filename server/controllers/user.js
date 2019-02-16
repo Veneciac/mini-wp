@@ -92,7 +92,6 @@ class UserController {
         User.findOne({ email: req.body.email })
             .then(data => {
                 if (data) {
-                    console.log(data, req.body.password)
                     if (comparePass(req.body.password, data.password)) {
                         res.status(200).json({
                             token: jwt.sign({ id: data._id }, process.env.JWT),
@@ -110,7 +109,6 @@ class UserController {
                 }
             })
             .catch(err => {
-                console.log(err)
                 res.status(500).json({
                     msg: err.message
                 })

@@ -8,117 +8,149 @@ var app = new Vue({
     },
     data: {
         articleList: [],
+        recent: [],
         state: 'home',
         user: null,
         article: null
     },
     methods: {
-      getArticle () {
-        //   console.log('---- get article')
-          axios({
-            method: 'get',
-            url: `${url}/articles`
-          })
-          .then( ({ data }) => {
-            this.articleList = data
-          })
-          .catch( (err) => {
-              console.error(err)
-          })
-      },
-      pushArticleList (data) {
-          this.articleList.push(data)
-          this.state = 'home'
-      },
-      openSignUp () {
-        this.state = 'signUp'
-      },
-      logout () {
-        gapi.load('auth2', function() { 
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut()
-            .then( () => {
-                localStorage.removeItem('token')
-                this.user = null
-                this.state = 'home'
-            });
-        });
-        localStorage.removeItem('token')
-        this.user = null
-        this.state = 'home'
-      },
-      setUser (data) {
-          if (data.token) {
-              localStorage.setItem('token', data.token)
-              this.user = data.data
-          } else {
-              this.user = data
-          }
-        this.state = 'home'
-      },
-      getUser () {
-          axios({
-              method: 'get',
-              url: `${url}/users/me`,
-              headers: {
-                  token: localStorage.token
-              }
-          })
-          .then( ({ data }) => {
-            this.user = data
-          })
-          .catch(err => {
-              console.error(err.response)
-          })
-      },
-      sendDetail (val) {
-          this.article = val
-          this.getArticle()
-          this.state = 'articleDetail'
-      },
-      filter (query) {
-        let q = new RegExp(query.toLowerCase())
-        
-        if (query) {
-            this.articleList = this.articleList.filter(function (el) {
-                return el.title.toLowerCase().match(q)
+        getArticle () {
+            axios({
+                method: 'get',
+                url: `${url}/articles`
             })
-        } else {
-            this.getArticle()
-        }
-
-      },
-      deleteArticle (article) {
-          axios({
-              method: 'delete',
-              url: `${url}/articles/${article._id}`,
-              headers: {
-                  token: localStorage.token
-              }
-          })
-          .then( ({ data }) => {
-            this.getArticle()
+            .then( ({ data }) => {
+                //   kalo g pake ini referencenya masih sama jadi kek this.recent = this.articlelist
+                this.articleList = [...data]
+                this.recent = [...data]
+                
+                // kalo g reverse nth kenapa datanya beda"
+                // this.articleList = data
+            })
+            .catch( (err) => {
+                alertify.error('Something went wrong');
+                console.error(err)
+            })
+        },
+        pushArticleList (data) {
+            this.articleList.push(data)
             this.state = 'home'
-          })
-          .catch(err => {
-              console.error(err)
-          })
-      },
-      filterByTag (tag) {
-          this.article = null
-        console.log(tag)
-        let q = new RegExp(tag.toLowerCase())
+        },
+        openSignUp () {
+            this.state = 'signUp'
+        },
+        logout () {
+            gapi.load('auth2', function() { 
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut()
+                .then( () => {
+                    status = true
+                    localStorage.removeItem('token')
+                    this.user = null
+                    this.state = 'home'
+                });
+            });
 
-        if (tag) {
-            this.articleList = this.articleList.filter(art => {
-                return art.tag.join(' ').toLowerCase().match(q)
+            alertify.message('Bye...')
+            localStorage.removeItem('token')
+            this.user = null
+            this.state = 'home'
+        },
+        setUser (data) {
+            if (data.token) {
+                localStorage.setItem('token', data.token)
+                this.user = data.data
+            } else {
+                this.user = data
+            }
+            this.state = 'home'
+        },
+        getUser () {
+            axios({
+                method: 'get',
+                url: `${url}/users/me`,
+                headers: {
+                    token: localStorage.token
+                }
             })
-        } else {
+            .then( ({ data }) => {
+                this.user = data
+            })
+            .catch(err => {
+                alertify.error('Something went wrong');
+                console.error(err)
+            })
+        },
+        sendDetail (val) {
+            this.article = val
             this.getArticle()
-        }
+            this.state = 'articleDetail'
+        },
+        filter (query) {
+            let q = new RegExp(query.toLowerCase())
+            
+            if (query) {
+                this.articleList = this.articleList.filter(function (el) {
+                    return el.title.toLowerCase().match(q) || el.author.name.toLowerCase().match(q)
+                })
+            } else {
+                this.getArticle()
+            }
 
-        this.state = 'home'
-      }
+        },
+        deleteArticle (article) {
+            axios({
+                method: 'delete',
+                url: `${url}/articles/${article._id}`,
+                headers: {
+                    token: localStorage.token
+                }
+            })
+            .then( ({ data }) => {
+                this.getArticle()
+                this.state = 'home'
+                alertify.message('Success delete')
+            })
+            .catch(err => {
+                alertify.error('Something went wrong');
+                console.error(err)
+            })
+        },
+        filterByTag (tag) {
+            this.article = null
+            let q = new RegExp(tag.toLowerCase())
+
+            if (tag) {
+                this.articleList = this.articleList.filter(art => {
+                    return art.tag.join(' ').toLowerCase().match(q)
+                })
+            } else {
+                this.getArticle()
+            }
+
+            this.state = 'home'
+        },
+        random () {
+            this.articleList.sort(() => Math.random() - 0.5)
+            this.state = 'home'
+        },
+        // like (id) {
+        //     axios({
+        //         method: 'put',
+        //         url: `${url}/articles/${id}/like`,
+        //         headers: {
+        //             token: localStorage.token
+        //         }
+        //     })
+        //     .then(data => {
+        //         this.article = data.data
+        //         console.log(data.data, 'masuk sukses------------------')
+        //     })
+        //     .catch(err => {
+        //         console.log(err.response)
+        //         alertify.error('OOoppss, Something went wrong!');
+        //     })
+        // },
     },
     created () {
         this.getArticle()

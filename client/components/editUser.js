@@ -51,9 +51,11 @@ Vue.component('edit-user', {
                 }
             })
             .then( ({ data }) => {
+                alertify.message('Welcome')
                 this.$emit('set-user', data)
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
         },
@@ -113,7 +115,7 @@ Vue.component('edit-user', {
                         <img style="width: 100%; height: 100%" class="img-art" :src="image" :alt="image" >
                     </div>
 
-                    <div class="row justify-content-end">
+                    <div class="row mt-3 justify-content-end">
                         <button type="submit" class="btn btn-primary ml-2">Submit</button>
                         <button type="button" @click="close" style="background-color: #e0e0e0" class="btn ml-2">Close</button>
                     </div>

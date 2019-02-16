@@ -20,9 +20,10 @@ Vue.component('form-login', {
                 this.email = ''
                 this.password = ''
                 this.$emit('set-user', data)
+                alertify.message('Welcomee');
             })
             .catch(err => {
-                console.error(err)
+                alertify.error('Something went wrong');
                 console.log(err.response)
             })
         },
@@ -39,16 +40,18 @@ Vue.component('form-login', {
                 localStorage.setItem('token', response.data.token)
                 let data = response.data.data
                 app.user = {
-                    id: data._id,
+                    _id: data._id,
                     name: data.name,
                     email: data.email,
                     aboutMe: data.aboutMe,
                     birthday: data.birthday,
                     image: data.image
                 }
+                alertify.message('Welcomee');
                 app.state = 'home'
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
         },

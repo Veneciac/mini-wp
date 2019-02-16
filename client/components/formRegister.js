@@ -36,8 +36,10 @@ Vue.component('form-register', {
                 this.aboutMe = ''
 
                 this.$emit('set-user', data)
+                alertify.message('Welcome')
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
         },
@@ -54,7 +56,7 @@ Vue.component('form-register', {
                 localStorage.setItem('token', response.data.token)
                 let data = response.data.data
                 app.user = {
-                    id: data._id,
+                    _id: data._id,
                     name: data.name,
                     email: data.email,
                     aboutMe: data.aboutMe,
@@ -62,8 +64,10 @@ Vue.component('form-register', {
                     image: data.image
                 }
                 app.state = 'home'
+                alertify.message('Welcome')
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
         },

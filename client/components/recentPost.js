@@ -1,9 +1,23 @@
 Vue.component('recent-post', {
     props: ['articles'],
+    data () {
+        return {
+            sortedArticle: []
+        }
+    },
     methods: {
         detail (val) {
             this.$emit('detail', val)
+        },
+        sort () {
+            this.articles.sort(function(a, b){
+                console.log(a.createdAt)
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
         }
+    },
+    created () {
+        // this.sort()
     },
     template: `
     <div class="row">
@@ -15,7 +29,7 @@ Vue.component('recent-post', {
                 </div>
 
                 <!-- RECENT POSTS ARTICLE -->
-                <div @click.prevent="detail(article)" class="row" v-for="(article, i) in articles.slice().reverse()">
+                <div @click.prevent="detail(article)" class="row" v-for="(article, i) in articles" v-if="i < 3">
                     <div class="col mt-2" style="padding-right: 10px; padding-left:1rem">
                         <img style="height: 100%; width: 100%; " :src="article.image" :alt="article.image" >
                     </div>

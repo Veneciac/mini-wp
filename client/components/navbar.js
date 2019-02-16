@@ -10,6 +10,9 @@ Vue.component('my-navbar', {
                 <li class="nav-item active">
                     <a style="color: black; cursor: pointer" class="nav-link" @click.prevent="home">Home</a>
                 </li>
+                <li class="nav-item active">
+                    <a style="color: black; cursor: pointer" class="nav-link" @click.prevent="$emit('explore')">Explore</a>
+                </li>
                 <li class="nav-item" v-if="user">
                     <a style="color: black; cursor: pointer" class="nav-link" @click.prevent="add">Write</a>
                 </li>

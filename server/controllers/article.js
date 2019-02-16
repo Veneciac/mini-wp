@@ -14,11 +14,6 @@ class ArticleController {
         let content = req.body.content
         let author = req.currentUser._id
         let image = req.file.cloudStoragePublicUrl
-
-        // if (req.file) {
-        //     imageUrl = req.file.cloudStoragePublicUrl
-        // }
-
         let tag = req.body.tag.split(',')
      
         let newAr = {
@@ -48,7 +43,7 @@ class ArticleController {
     static readAll (req, res) {
         Article.find({}).populate('author').exec()
             .then( list => {
-                res.status(200).json(list)
+                res.status(200).json(list.reverse())
             })
             .catch(err => {
                 res.status(500).json({
@@ -59,6 +54,24 @@ class ArticleController {
 
     static findOne (req, res) {
        res.status(200).json(req.currentArticle)
+    }
+
+    static uploadMusic (req, res) {
+        let music = req.file.cloudStoragePublicUrl
+
+        req.currentArticle.set({ music })
+        req.currentArticle.save()
+            .then(data => {
+                return data.populate('author').execPopulate()
+            })
+            .then(populated => {
+                res.status(200).json(populated)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                })
+            })
     }
 
     static update (req, res) {
@@ -111,5 +124,28 @@ class ArticleController {
             })
     }
 
+    static like (req, res) {
+        let userId = String(req.currentUser._id)
+        let index = req.currentArticle.like.indexOf(userId)
+
+        if (index == -1) {
+            req.currentArticle.like.push(userId)
+        } else {
+            req.currentArticle.like.splice(index, 1)
+        }
+
+        req.currentArticle.save()
+            .then(data => {
+                return data.populate('author').execPopulate()
+            })
+            .then(populated => {
+                res.status(200).json(populated)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                })
+            })
+    }
 }
 module.exports = ArticleController

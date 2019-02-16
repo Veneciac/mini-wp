@@ -3,7 +3,7 @@ Vue.component('article-list', {
     template: `
     <div>
         <!-- LOOPINGANYA DISINI -->
-        <div  class="card mt-3" v-for="(article, i) in articles.slice().reverse()">
+        <div v-if="articles.length > 0" class="card mt-3" v-for="(article, i) in articles">
 
             <div @click="detail(article)" style="cursor: pointer" class="card-body row">
 
@@ -13,7 +13,8 @@ Vue.component('article-list', {
 
                 <div class="col">
                     <div class="row article-title">
-                        <h2 >{{ article.title }}</h2>
+                        <h2 class="col" >{{ article.title }}</h2>
+                        <p class="col-1" > {{ article.like.length }} </p>
                     </div>
 
                     <div class="row">
@@ -24,8 +25,8 @@ Vue.component('article-list', {
                         {{ article.briefDesc }}
                     </div>
 
-                    <div class="row mt-3left: 0" v-if="tag != ''" v-for="tag in article.tag">
-                        <button type="button" class="badge badge-pill badge-secondary text-white article-caps m-2" style="background-color: lightgrey; font-size: 10px; ">{{ tag }}</button>
+                    <div class="row mt-3left: 0" >
+                        <button v-for="tag in article.tag" v-if="tag != ''" type="button" class="badge badge-pill badge-secondary text-white article-caps m-2" style="background-color: lightgrey; font-size: 10px; ">{{ tag }}</button>
                     </div>
 
                     <div class="row author-info">

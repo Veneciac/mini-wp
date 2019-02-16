@@ -38,9 +38,11 @@ Vue.component('edit-article', {
                 }
             })
             .then( ({ data }) => {
+                alertify.message('Welcome')
                 this.$emit('send-detail', data)
             })
             .catch(err => {
+                alertify.error('Something went wrong');
                 console.error(err)
             })
         },

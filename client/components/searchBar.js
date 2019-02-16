@@ -25,7 +25,7 @@ Vue.component('search-bar', {
                 box-shadow: 0px 0px 0px lightgrey;
                 -webkit-transition:  box-shadow .3s ease-out;
                    box-shadow: .8px .9px 3px lightgrey;"
-                type="text" placeholder="Search By Title">
+                type="text" placeholder="Search By Title / Author">
             </form>
         </div>
         <div class="col mt-3" style="right: 0;">

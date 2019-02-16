@@ -8,7 +8,12 @@ var articleSchema = new Schema({
     content: String,
     image: String,
     author: { type: Schema.Types.ObjectId, ref: 'User' },
-    tag: [String]
+    tag: [String],
+    music: String,
+    like: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
+    }]
 }, {
     timestamps: true
 })
