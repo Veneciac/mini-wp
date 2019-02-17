@@ -12,6 +12,7 @@ Vue.component('article-list', {
                 </div>
 
                 <div class="col">
+                
                     <div class="row article-title">
                         <h2 class="col" >{{ article.title }}</h2>
                         <p class="col-1" > {{ article.like.length }} </p>

@@ -27,7 +27,6 @@ Vue.component('article-detail', {
                 this.likes = data.data.like
             })
             .catch(err => {
-                console.log(err.response)
                 alertify.error('OOoppss, Something went wrong!');
             })
         }

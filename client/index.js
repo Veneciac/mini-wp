@@ -20,16 +20,16 @@ var app = new Vue({
                 url: `${url}/articles`
             })
             .then( ({ data }) => {
-                //   kalo g pake ini referencenya masih sama jadi kek this.recent = this.articlelist
+                //   kalo g pake ini referencenya masih sama jadi kek this.recent = this.articlelist => TO DIFFERENTIATE THE SOURCE DATA (?) 
+                // => SPREAD OPERATOR
                 this.articleList = [...data]
                 this.recent = [...data]
                 
-                // kalo g reverse nth kenapa datanya beda"
+                // kalo g reverse nth kenapa datanya beda" => REVERSE LANGSUNG DARI SERVER
                 // this.articleList = data
             })
             .catch( (err) => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         pushArticleList (data) {
@@ -78,7 +78,6 @@ var app = new Vue({
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         sendDetail (val) {
@@ -113,7 +112,6 @@ var app = new Vue({
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         filterByTag (tag) {
@@ -134,23 +132,6 @@ var app = new Vue({
             this.articleList.sort(() => Math.random() - 0.5)
             this.state = 'home'
         },
-        // like (id) {
-        //     axios({
-        //         method: 'put',
-        //         url: `${url}/articles/${id}/like`,
-        //         headers: {
-        //             token: localStorage.token
-        //         }
-        //     })
-        //     .then(data => {
-        //         this.article = data.data
-        //         console.log(data.data, 'masuk sukses------------------')
-        //     })
-        //     .catch(err => {
-        //         console.log(err.response)
-        //         alertify.error('OOoppss, Something went wrong!');
-        //     })
-        // },
     },
     created () {
         this.getArticle()

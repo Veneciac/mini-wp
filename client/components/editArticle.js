@@ -43,7 +43,6 @@ Vue.component('edit-article', {
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         pushTag() {

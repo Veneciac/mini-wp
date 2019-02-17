@@ -11,13 +11,9 @@ Vue.component('recent-post', {
         },
         sort () {
             this.articles.sort(function(a, b){
-                console.log(a.createdAt)
                 return new Date(b.createdAt) - new Date(a.createdAt);
             });
         }
-    },
-    created () {
-        // this.sort()
     },
     template: `
     <div class="row">
@@ -38,8 +34,6 @@ Vue.component('recent-post', {
                         <p class="crop"> {{ article.briefDesc }} </p>
                     </div>
                 </div>
-
-                <hr style="background-color: lightgrey">
 
             </div>
         </div>

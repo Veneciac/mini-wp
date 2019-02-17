@@ -23,8 +23,7 @@ Vue.component('form-login', {
                 alertify.message('Welcomee');
             })
             .catch(err => {
-                alertify.error('Something went wrong');
-                console.log(err.response)
+                alertify.error(`${err.response.data.msg}`);
             })
         },
         onSignIn (googleUser) {
@@ -52,7 +51,6 @@ Vue.component('form-login', {
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         close () {

@@ -56,7 +56,6 @@ Vue.component('edit-user', {
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         close () {

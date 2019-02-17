@@ -77,10 +77,10 @@
             <!-- RIGHT  BAR -->
             <div class="col mb-5 mr-3" id="authorProfile">
 
-                <div class="sticky-top" v-if="(state == 'home' && user) || (state == 'articleDetail')" style="overflow-y: scroll; height: 100vh;">
+                <div class="sticky-top" style="overflow-y: scroll; height: 100vh;">
 
                     <!-- ABOUT ME -->
-                    <about-me @edit="state = 'editUser'" :article="article" :user="user"></about-me>
+                    <about-me  v-if="(state == 'home' && user) || (state == 'articleDetail')" @edit="state = 'editUser'" :article="article" :user="user"></about-me>
     
                     <!-- RECENT POST  -->
                     <recent-post @detail="sendDetail" :user="user" :articles="recent"> </recent-post>

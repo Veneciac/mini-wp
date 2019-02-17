@@ -39,8 +39,11 @@ Vue.component('form-register', {
                 alertify.message('Welcome')
             })
             .catch(err => {
-                alertify.error('Something went wrong');
-                console.error(err)
+                if (err.response.data.errors) {
+                    alertify.error(`${err.response.data.errors.email.message}`)
+                } else {
+                    alertify.error(`${err.response.data.msg}`);
+                }
             })
         },
         onSignIn (googleUser) {
@@ -68,7 +71,6 @@ Vue.component('form-register', {
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
             })
         },
         close () {

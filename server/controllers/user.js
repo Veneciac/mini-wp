@@ -81,9 +81,7 @@ class UserController {
                 })
             })
             .catch(err => {
-                res.status(500).json({
-                    msg: err.message
-                })
+                res.status(500).json(err)
             })
         }
     }
@@ -157,7 +155,6 @@ class UserController {
         req.currentUser.set(upUser)
         req.currentUser.save()
             .then(data => {
-                console.log(data, 'data yg dah di save')
                 res.status(200).json(data)
             })
             .catch(err => {

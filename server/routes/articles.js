@@ -6,9 +6,10 @@ const image = require('../helpers/image')
 
 router.get('/', Controller.readAll)
 
-// BUAT UPLOAD IMAGENYA
+// BUAT UPLOAD IMAGE TO CLOUD
 router.post('/', checkUser, image.multer.single('image'), image.sendUploadToGCS, Controller.create)
-// BUAT UPLOAD MUSICNY
+
+// BUAT UPLOAD MUSIC TO CLOUD
 router.put('/music/:id', checkUser, checkIdArticle, authorizedUser, image.multer.single('music'), image.sendUploadToGCS, Controller.uploadMusic)
 
 router.get('/:id', checkUser, checkIdArticle, Controller.findOne)
