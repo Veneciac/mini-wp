@@ -73,7 +73,7 @@ Vue.component('article-detail', {
                 <div class="row justify-content-end">
                     <div class="col">
 
-                        <div class="row mt-3" >
+                        <div class="row mt-3" v-if="user" >
 
                             <h3 class="ml-2 mr-2"> 
                                 <i style="cursor: pointer" @click.prevent="like" v-if="likes.indexOf(String(user._id)) == -1" class="far fa-heart"></i> 

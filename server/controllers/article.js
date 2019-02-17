@@ -3,11 +3,12 @@ const Article = require('../models/Article')
 class ArticleController {
 
     static create (req, res) {
-        if (!req.file) {
+        if (!req.file || !req.title || !req.briefDesc || !req.content ) {
             res.status(400).json({
-                msg: `Image required`
+                msg: `Image, title, description and content required`
             })
-        }
+        } 
+
         let title = req.body.title
         let category = req.body.category
         let briefDesc = req.body.briefDesc
