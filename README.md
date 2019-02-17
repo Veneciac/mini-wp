@@ -17,6 +17,7 @@ Route|HTTP|Header(s)|Body|Description|
 <br>
 
 **LIST OF ARTICLE ROUTES:**
+
 Route|HTTP|Header(s)|Body|Description|
 |---|---|---|---|---|
 |/aricles|GET|token|none |Get all articles|
@@ -26,6 +27,7 @@ Route|HTTP|Header(s)|Body|Description|
 |/aricles/:id|PUT|token|title: String, category: String, briefDesc: String, content: String, image: file, tag: String|Update article data|
 |/aricles/:id/like|PUT|token|none |Update article like|
 |/aricles/:id|DELETE|token|none |Delete article|
+
 <br>
 <br>
 
