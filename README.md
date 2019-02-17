@@ -40,6 +40,7 @@ $ npm run dev
 And don't forget to fill the .env file 
 
 Link Server:
-
+http://35.186.159.35
 
 Link deploy: 
+http://sharebox.veneciac.xyz/

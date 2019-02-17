@@ -3,42 +3,44 @@ const Article = require('../models/Article')
 class ArticleController {
 
     static create (req, res) {
-        if (!req.file || !req.title || !req.briefDesc || !req.content ) {
+        if (!req.file || !req.body.title || !req.body.briefDesc || !req.body.content ) {
             res.status(400).json({
                 msg: `Image, title, description and content required`
             })
-        } 
-
-        let title = req.body.title
-        let category = req.body.category
-        let briefDesc = req.body.briefDesc
-        let content = req.body.content
-        let author = req.currentUser._id
-        let image = req.file.cloudStoragePublicUrl
-        let tag = req.body.tag.split(',')
-     
-        let newAr = {
-            title, category, briefDesc, content, author, image, tag
-        }
-
-        for (let i in newAr) {
-            if (!newAr[i]) {
-                delete newAr[i]
+        } else {
+            let title = req.body.title
+            let category = req.body.category
+            let briefDesc = req.body.briefDesc
+            let content = req.body.content
+            let author = req.currentUser._id
+            let image = req.file.cloudStoragePublicUrl
+            let tag = req.body.tag.split(',')
+         
+            let newAr = {
+                title, category, briefDesc, content, author, image, tag
             }
+    
+            for (let i in newAr) {
+                if (!newAr[i]) {
+                    delete newAr[i]
+                }
+            }
+    
+            Article.create(newAr)
+                .then(data => {
+                    return data.populate('author').execPopulate()
+                })
+                .then(populated => {
+                    res.status(201).json(populated)
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        msg: err.message
+                    })
+                })
+
         }
 
-        Article.create(newAr)
-            .then(data => {
-                return data.populate('author').execPopulate()
-            })
-            .then(populated => {
-                res.status(201).json(populated)
-            })
-            .catch(err => {
-                res.status(500).json({
-                    msg: err.message
-                })
-            })
     }
 
     static readAll (req, res) {

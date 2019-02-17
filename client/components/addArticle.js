@@ -60,7 +60,7 @@ Vue.component('form-add-article', {
                     })
                     .catch(err => {
                         alertify.error('Something went wrong');
-                        console.error(err)
+                        console.error(err.response)
                     })
                 } else {
                     this.$emit('push-article', data)
@@ -68,7 +68,7 @@ Vue.component('form-add-article', {
             })
             .catch(err => {
                 alertify.error('Something went wrong');
-                console.error(err)
+                console.error(err.response)
             })
   
         },

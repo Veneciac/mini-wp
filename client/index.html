@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-signin-client_id" content="509823842473-s1ourln1e4vc9o2cnl271p773ms4faep.apps.googleusercontent.com"> <!--Google sign in-->
+    <meta name="google-signin-client_id" content="509823842473-g6q5etmumnabjjat1fkb8h0u2fpit4fm.apps.googleusercontent.com"> <!--Google sign in-->
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> <!-- BOOTSTRAP-->
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"> <!--Styling-->
@@ -83,7 +83,7 @@
                     <about-me  v-if="(state == 'home' && user) || (state == 'articleDetail')" @edit="state = 'editUser'" :article="article" :user="user"></about-me>
     
                     <!-- RECENT POST  -->
-                    <recent-post @detail="sendDetail" :user="user" :articles="recent"> </recent-post>
+                    <recent-post v-if="recent.length > 0" @detail="sendDetail" :user="user" :articles="recent"> </recent-post>
 
                 </div>
 

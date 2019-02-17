@@ -1,4 +1,4 @@
-let url = 'http://localhost:3000'
+let url = 'http://35.186.159.35'
 
 var app = new Vue({
     el: '#app',
@@ -144,7 +144,7 @@ var app = new Vue({
     mounted() {
         gapi.load('auth2', function(){
             auth2 = gapi.auth2.init({
-              client_id: '509823842473-s1ourln1e4vc9o2cnl271p773ms4faep.apps.googleusercontent.com',
+              client_id: '509823842473-g6q5etmumnabjjat1fkb8h0u2fpit4fm.apps.googleusercontent.com',
               cookiepolicy: 'single_host_origin',
             });
         });
